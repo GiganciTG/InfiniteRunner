@@ -5,6 +5,7 @@ using UnityEngine;
 public class FloorController : MonoBehaviour
 {
     public GameObject floorTile1, floorTile2;
+    public GameObject[] tiles;
 
     void FixedUpdate()
     {
@@ -21,11 +22,17 @@ public class FloorController : MonoBehaviour
 
         if (floorTile2.transform.position.x < 0f)
         {
-            floorTile1.transform.position += new Vector3(32f, 0f, 0f);
+            int index = Random.Range(0, tiles.Length);
+            var newTile = Instantiate(
+                tiles[index],
+                floorTile2.transform.position + new Vector3(16f, 0f, 0f), 
+                Quaternion.identity
+            );
 
-            var temp = floorTile1;
+            Destroy(floorTile1);
+
             floorTile1 = floorTile2;
-            floorTile2 = temp;
+            floorTile2 = newTile;
         }
     }
 }
